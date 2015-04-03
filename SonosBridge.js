@@ -33,6 +33,10 @@ var logger = bunyan.createLogger({
     module: 'SonosBridge',
 });
 
+var mode_play = _.ld.expand("iot-attribute:media.mode.play");
+var mode_pause = _.ld.expand("iot-attribute:media.mode.pause");
+var mode_stop = _.ld.expand("iot-attribute:media.mode.stop");
+
 /**
  *  EXEMPLAR and INSTANCE
  *  <p>
@@ -80,7 +84,7 @@ SonosBridge.prototype.discover = function () {
         method: "discover"
     }, "called");
 
-    sonos.search(function(native) {
+    sonos.search(function (native) {
         self.discovered(new SonosBridge(self.initd, native));
     });
 };
@@ -156,16 +160,144 @@ SonosBridge.prototype.push = function (pushd) {
 
     logger.info({
         method: "push",
-        putd: putd
+        pushd: pushd,
     }, "push");
 
-    var qitem = {
-        id: self.light,
-        run: function () {
-            self.queue.finished(qitem);
+    if (pushd.volume !== undefined) {
+        self._push_volume(pushd.volume);
+    }
+
+    if (pushd.mute !== undefined) {
+        self._push_mute(pushd.mute);
+    }
+
+    if (pushd.mode === mode_play) {
+        self._push_mode_play();
+    } else if (pushd.mode === mode_pause) {
+        self._push_mode_pause();
+    } else if (pushd.mode === mode_stop) {
+        self._push_mode_stop();
+    }
+};
+
+SonosBridge.prototype._push_volume = function (volume) {
+    var self = this;
+
+    self.queue.add({
+        id: "set-volume",
+        run: function (queue, qitem) {
+            self.native.setVolume(volume, function (error, data) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_push_volume/callback",
+                        error: error,
+                    }, "Sonos error");
+                } else {
+                    self.pulled({
+                        volume: volume,
+                    });
+                }
+            });
         }
-    };
-    self.queue.add(qitem);
+    });
+};
+
+SonosBridge.prototype._push_mute = function (mute) {
+    var self = this;
+
+    self.queue.add({
+        id: "set-mute",
+        run: function (queue, qitem) {
+            self.native.setMuted(mute, function (error, data) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_push_mute/callback",
+                        error: error,
+                    }, "Sonos error");
+                } else {
+                    self.pulled({
+                        mute: mute,
+                    });
+                }
+            });
+        }
+    });
+};
+
+SonosBridge.prototype._push_mode_play = function () {
+    var self = this;
+
+    self.queue.add({
+        id: "set-mode",
+        run: function (queue, qitem) {
+            self.native.play(function (error, data) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_push_mode_play/callback",
+                        error: error,
+                    }, "Sonos error");
+                } else {
+                    self.pulled({
+                        mode: mode_play,
+                    });
+                }
+            });
+        }
+    });
+};
+
+SonosBridge.prototype._push_mode_pause = function () {
+    var self = this;
+
+    self.queue.add({
+        id: "set-mode",
+        run: function (queue, qitem) {
+            self.native.pause(function (error, data) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_push_mode_pause/callback",
+                        error: error,
+                    }, "Sonos error");
+                } else {
+                    self.pulled({
+                        mode: mode_pause,
+                    });
+                }
+            });
+        }
+    });
+};
+
+SonosBridge.prototype._push_mode_stop = function () {
+    var self = this;
+
+    self.queue.add({
+        id: "set-mode",
+        run: function (queue, qitem) {
+            self.native.stop(function (error, data) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_push_mode_stop/callback",
+                        error: error,
+                    }, "Sonos error");
+                } else {
+                    self.pulled({
+                        mode: mode_stop,
+                    });
+                }
+            });
+        }
+    });
 };
 
 /**

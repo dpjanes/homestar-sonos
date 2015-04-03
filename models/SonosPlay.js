@@ -11,19 +11,19 @@ var _ = iotdb._;
 
 exports.Model = iotdb.make_model('SonosPlay')
     .name("Sonos Play")
-    .io("on", iotdb.boolean.on)
-    .io("volume", iotdb.number.unit.volume)
-    .io("media-mode",
+    .io("volume", iotdb.integer.percent.volume)
+    .io("mute", iotdb.boolean.mute)
+    .io("mode",
         iotdb
-            .make_string(":media-mode")
-            .enumeration(_.ld.expand([
-                "iot-attribute:mode-mode.play",
-                "iot-attribute:mode-mode.pause",
-                "iot-attribute:mode-mode.stop",
-            ]))
+        .make_string(":media.mode")
+        .enumeration(_.ld.expand([
+            "iot-attribute:media.mode.play",
+            "iot-attribute:media.mode.pause",
+            "iot-attribute:media.mode.stop",
+        ]))
     )
-    .o("next", iotdb.make_null("media-mode.next"))
-    .o("previous", iotdb.make_null("media-mode.previous"))
+    .o("next", iotdb.make_null("media.next"))
+    .o("previous", iotdb.make_null("medi.previous"))
     .make();
 
 exports.binding = {

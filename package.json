@@ -4,10 +4,7 @@
         "url": "https://github.com/dpjanes/homestar-sonos/issues"
     }, 
     "dependencies": {
-        "sonos": "",
-    }, 
-    "peerDependencies": {
-        "iotdb": ">=0.4.16"
+        "sonos": "~0.8.0"
     }, 
     "description": "HomeStar / IOTDB Bridge for sonos", 
     "devDependencies": {
@@ -26,6 +23,9 @@
     "license": "Apache-2.0", 
     "main": "index.js", 
     "name": "homestar-sonos", 
+    "peerDependencies": {
+        "iotdb": ">=0.5.12"
+    }, 
     "private": false, 
     "repository": {
         "type": "git", 
