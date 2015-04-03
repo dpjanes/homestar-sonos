@@ -163,12 +163,20 @@ SonosBridge.prototype.push = function (pushd) {
         pushd: pushd,
     }, "push");
 
+    if (pushd.mute !== undefined) {
+        self._push_mute(pushd.mute);
+    }
+
     if (pushd.volume !== undefined) {
         self._push_volume(pushd.volume);
     }
 
-    if (pushd.mute !== undefined) {
-        self._push_mute(pushd.mute);
+    if (pushd.next) {
+        self._push_next();
+    }
+
+    if (pushd.previous) {
+        self._push_previous();
     }
 
     if (pushd.mode === mode_play) {
@@ -184,7 +192,7 @@ SonosBridge.prototype._push_volume = function (volume) {
     var self = this;
 
     self.queue.add({
-        id: "set-volume",
+        id: "_push_volume",
         run: function (queue, qitem) {
             self.native.setVolume(volume, function (error, data) {
                 self.queue.finished(qitem);
@@ -208,7 +216,7 @@ SonosBridge.prototype._push_mute = function (mute) {
     var self = this;
 
     self.queue.add({
-        id: "set-mute",
+        id: "_push_mute",
         run: function (queue, qitem) {
             self.native.setMuted(mute, function (error, data) {
                 self.queue.finished(qitem);
@@ -232,7 +240,7 @@ SonosBridge.prototype._push_mode_play = function () {
     var self = this;
 
     self.queue.add({
-        id: "set-mode",
+        id: "_push_mode",
         run: function (queue, qitem) {
             self.native.play(function (error, data) {
                 self.queue.finished(qitem);
@@ -256,7 +264,7 @@ SonosBridge.prototype._push_mode_pause = function () {
     var self = this;
 
     self.queue.add({
-        id: "set-mode",
+        id: "_push_mode",
         run: function (queue, qitem) {
             self.native.pause(function (error, data) {
                 self.queue.finished(qitem);
@@ -280,7 +288,7 @@ SonosBridge.prototype._push_mode_stop = function () {
     var self = this;
 
     self.queue.add({
-        id: "set-mode",
+        id: "_push_mode",
         run: function (queue, qitem) {
             self.native.stop(function (error, data) {
                 self.queue.finished(qitem);
@@ -294,6 +302,46 @@ SonosBridge.prototype._push_mode_stop = function () {
                     self.pulled({
                         mode: mode_stop,
                     });
+                }
+            });
+        }
+    });
+};
+
+SonosBridge.prototype._push_next = function () {
+    var self = this;
+
+    self.queue.add({
+        id: "push-next",
+        run: function (queue, qitem) {
+            self.native.next(function (error, data) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_push_next/callback",
+                        error: error,
+                    }, "Sonos error");
+                }
+            });
+        }
+    });
+};
+
+SonosBridge.prototype._push_previous = function () {
+    var self = this;
+
+    self.queue.add({
+        id: "push-previous",
+        run: function (queue, qitem) {
+            self.native.previous(function (error, data) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_push_previous/callback",
+                        error: error,
+                    }, "Sonos error");
                 }
             });
         }
@@ -320,7 +368,7 @@ SonosBridge.prototype._pull_volume = function () {
     var self = this;
 
     self.queue.add({
-        id: "get-volume",
+        id: "_pull_volume",
         run: function (queue, qitem) {
             self.native.getVolume(function (error, volume) {
                 self.queue.finished(qitem);
@@ -344,7 +392,7 @@ SonosBridge.prototype._pull_mute = function () {
     var self = this;
 
     self.queue.add({
-        id: "get-mute",
+        id: "_pull_mute",
         run: function (queue, qitem) {
             self.native.getMuted(function (error, mute) {
                 self.queue.finished(qitem);
@@ -368,7 +416,7 @@ SonosBridge.prototype._pull_state = function () {
     var self = this;
 
     self.queue.add({
-        id: "get-state",
+        id: "_pull_state",
         run: function (queue, qitem) {
             self.native.getCurrentState(function (error, state) {
                 self.queue.finished(qitem);
