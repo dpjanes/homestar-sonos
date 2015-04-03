@@ -310,6 +310,84 @@ SonosBridge.prototype.pull = function () {
     if (!self.native) {
         return;
     }
+
+    self._pull_volume();
+    self._pull_mute();
+    self._pull_state();
+};
+
+SonosBridge.prototype._pull_volume = function () {
+    var self = this;
+
+    self.queue.add({
+        id: "get-volume",
+        run: function (queue, qitem) {
+            self.native.getVolume(function (error, volume) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_pull_volume/callback",
+                        error: error,
+                    }, "Sonos error");
+                } else {
+                    self.pulled({
+                        volume: volume,
+                    });
+                }
+            });
+        }
+    });
+};
+
+SonosBridge.prototype._pull_mute = function () {
+    var self = this;
+
+    self.queue.add({
+        id: "get-mute",
+        run: function (queue, qitem) {
+            self.native.getMuted(function (error, mute) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_pull_mute/callback",
+                        error: error,
+                    }, "Sonos error");
+                } else {
+                    self.pulled({
+                        mute: mute,
+                    });
+                }
+            });
+        }
+    });
+};
+
+SonosBridge.prototype._pull_state = function () {
+    var self = this;
+
+    self.queue.add({
+        id: "get-state",
+        run: function (queue, qitem) {
+            self.native.getCurrentState(function (error, state) {
+                self.queue.finished(qitem);
+
+                if (error) {
+                    logger.error({
+                        method: "_pull_state/callback",
+                        error: error,
+                    }, "Sonos error");
+                } else {
+                    logger.debug({
+                        method: "_pull_state/callback",
+                        error: error,
+                        state: state,
+                    }, "XXX - have the state but don't know what to do with it just yet");
+                }
+            });
+        }
+    });
 };
 
 /* --- state --- */
@@ -338,7 +416,7 @@ SonosBridge.prototype.meta = function () {
         "iot:thing": _.id.thing_urn.unique("Sonos", self.native.uuid, self.initd.number),
         "iot:device": _.id.thing_urn.unique("Sonos", self.native.uuid),
         "schema:name": self.native.name || "Sonos",
-        "schema:manufacturer": "http://www.sonos.com/en-ca?r=1",
+        "schema:manufacturer": "http://www.sonos.com/",
     };
 };
 
