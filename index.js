@@ -22,7 +22,7 @@
 
 "use strict";
 
-exports.Bridge = require('./SonosBridge');
+exports.Bridge = require('./SonosBridge').Bridge;
 exports.bindings = [
     require('./models/SonosPlay').binding,
 ];
