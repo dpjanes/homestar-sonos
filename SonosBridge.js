@@ -54,11 +54,11 @@ var SonosBridge = function (initd, native) {
 
     self.initd = _.defaults(initd,
         iotdb.keystore().get("bridges/SonosBridge/initd"), {
-            number: 0,
             poll: 30
         }
     );
     self.native = native;
+    self.native.uuid = "00000000-0000-0000-0000-000000000000";
     self.stated = {};
 
     if (self.native) {
@@ -450,7 +450,6 @@ SonosBridge.prototype._pull_state = function () {
  *  <li><code>iot:thing</code> required - a unique ID
  *  <li><code>iot:device</code> suggested if linking multiple things together
  *  <li><code>schema:name</code>
- *  <li><code>iot:number</code>
  *  <li><code>schema:manufacturer</code>
  *  <li><code>schema:model</code>
  */
@@ -461,8 +460,7 @@ SonosBridge.prototype.meta = function () {
     }
 
     return {
-        "iot:thing": _.id.thing_urn.unique("Sonos", self.native.uuid, self.initd.number),
-        "iot:device": _.id.thing_urn.unique("Sonos", self.native.uuid),
+        "iot:thing": _.id.thing_urn.unique("Sonos", self.native.uuid),
         "schema:name": self.native.name || "Sonos",
         "schema:manufacturer": "http://www.sonos.com/",
     };
