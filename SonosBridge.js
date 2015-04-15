@@ -58,11 +58,11 @@ var SonosBridge = function (initd, native) {
         }
     );
     self.native = native;
-    self.native.uuid = "00000000-0000-0000-0000-000000000000";
-    self.stated = {};
 
     if (self.native) {
+        self.native.uuid = "00000000-0000-0000-0000-000000000000";
         self.queue = _.queue("SonosBridge");
+        self.stated = {};
     }
 };
 
