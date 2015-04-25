@@ -66,6 +66,12 @@ var SonosBridge = function (initd, native) {
     }
 };
 
+SonosBridge.prototype = new iotdb.Bridge();
+
+SonosBridge.prototype.name = function () {
+    return "SonosBridge";
+};
+
 /* --- lifecycle --- */
 
 /**
