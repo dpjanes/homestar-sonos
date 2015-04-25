@@ -69,7 +69,7 @@ SonosBridge.prototype.name = function () {
 /* --- lifecycle --- */
 
 /**
- *  See {iotdb.bridge.Bridge#XXX} for documentation.
+ *  See {iotdb.bridge.Bridge#discover} for documentation.
  */
 SonosBridge.prototype.discover = function () {
     var self = this;
@@ -84,7 +84,7 @@ SonosBridge.prototype.discover = function () {
 };
 
 /**
- *  See {iotdb.bridge.Bridge#XXX} for documentation.
+ *  See {iotdb.bridge.Bridge#connect} for documentation.
  */
 SonosBridge.prototype.connect = function (connectd) {
     var self = this;
@@ -129,7 +129,7 @@ SonosBridge.prototype._forget = function () {
 };
 
 /**
- *  See {iotdb.bridge.Bridge#XXX} for documentation.
+ *  See {iotdb.bridge.Bridge#disconnect} for documentation.
  */
 SonosBridge.prototype.disconnect = function () {
     var self = this;
@@ -143,7 +143,7 @@ SonosBridge.prototype.disconnect = function () {
 /* --- data --- */
 
 /**
- *  See {iotdb.bridge.Bridge#XXX} for documentation.
+ *  See {iotdb.bridge.Bridge#push} for documentation.
  */
 SonosBridge.prototype.push = function (pushd) {
     var self = this;
@@ -344,7 +344,7 @@ SonosBridge.prototype._push_previous = function () {
 };
 
 /**
- *  See {iotdb.bridge.Bridge#XXX} for documentation.
+ *  See {iotdb.bridge.Bridge#pull} for documentation.
  */
 SonosBridge.prototype.pull = function () {
     var self = this;
@@ -434,7 +434,7 @@ SonosBridge.prototype._pull_state = function () {
 /* --- state --- */
 
 /**
- *  See {iotdb.bridge.Bridge#XXX} for documentation.
+ *  See {iotdb.bridge.Bridge#meta} for documentation.
  */
 SonosBridge.prototype.meta = function () {
     var self = this;
@@ -450,14 +450,14 @@ SonosBridge.prototype.meta = function () {
 };
 
 /**
- *  See {iotdb.bridge.Bridge#XXX} for documentation.
+ *  See {iotdb.bridge.Bridge#reachable} for documentation.
  */
 SonosBridge.prototype.reachable = function () {
     return this.native !== null;
 };
 
 /**
- *  See {iotdb.bridge.Bridge#XXX} for documentation.
+ *  See {iotdb.bridge.Bridge#configure} for documentation.
  */
 SonosBridge.prototype.configure = function (app) {};
 
