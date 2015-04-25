@@ -457,15 +457,6 @@ SonosBridge.prototype.reachable = function () {
  */
 SonosBridge.prototype.configure = function (app) {};
 
-/* --- injected: THIS CODE WILL BE REMOVED AT RUNTIME, DO NOT MODIFY  --- */
-SonosBridge.prototype.discovered = function (bridge) {
-    throw new Error("SonosBridge.discovered not implemented");
-};
-
-SonosBridge.prototype.pulled = function (pulld) {
-    throw new Error("SonosBridge.pulled not implemented");
-};
-
 /*
  *  API
  */
