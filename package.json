@@ -24,7 +24,7 @@
     "main": "index.js", 
     "name": "homestar-sonos", 
     "peerDependencies": {
-        "iotdb": ">=0.5.12"
+        "iotdb": ">=0.6.3"
     }, 
     "private": false, 
     "repository": {
@@ -34,5 +34,5 @@
     "scripts": {
         "test": "grunt"
     }, 
-    "version": "0.0.2"
+    "version": "0.0.3"
 }
