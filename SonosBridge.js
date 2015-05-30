@@ -145,9 +145,10 @@ SonosBridge.prototype.disconnect = function () {
 /**
  *  See {iotdb.bridge.Bridge#push} for documentation.
  */
-SonosBridge.prototype.push = function (pushd) {
+SonosBridge.prototype.push = function (pushd, done) {
     var self = this;
     if (!self.native) {
+        done(new Error("not connected"));
         return;
     }
 
@@ -158,32 +159,58 @@ SonosBridge.prototype.push = function (pushd) {
         pushd: pushd,
     }, "push");
 
-    if (pushd.mute !== undefined) {
-        self._push_mute(pushd.mute);
+    var dcount = 0;
+    var _doing = function() {
+        dcount++;
     }
+    var _done = function() {
+        if (--dcount <= 0) {
+            done();
+        }
+    };
 
-    if (pushd.volume !== undefined) {
-        self._push_volume(pushd.volume);
-    }
+    try {
+        _doing();
 
-    if (pushd.next) {
-        self._push_next();
-    }
+        if (pushd.mute !== undefined) {
+            _doing();
+            self._push_mute(pushd.mute, _done);
+        }
 
-    if (pushd.previous) {
-        self._push_previous();
-    }
+        if (pushd.volume !== undefined) {
+            _doing();
+            self._push_volume(pushd.volume, _done);
+        }
 
-    if (pushd.mode === mode_play) {
-        self._push_mode_play();
-    } else if (pushd.mode === mode_pause) {
-        self._push_mode_pause();
-    } else if (pushd.mode === mode_stop) {
-        self._push_mode_stop();
+        if (pushd.next) {
+            _doing();
+            self._push_next(_done);
+        }
+
+        if (pushd.previous) {
+            _doing();
+            self._push_previous(_done);
+        }
+
+        if (pushd.mode === mode_play) {
+            _doing();
+            self._push_mode_play(_done);
+        } else if (pushd.mode === mode_pause) {
+            _doing();
+            self._push_mode_pause(_done);
+        } else if (pushd.mode === mode_stop) {
+            _doing();
+            self._push_mode_stop(_done);
+        }
+
+        _done();
+    } catch (x) {
+        dcount = -9999;
+        done(new Error("unexpected excption: " + x));
     }
 };
 
-SonosBridge.prototype._push_volume = function (volume) {
+SonosBridge.prototype._push_volume = function (volume, _done) {
     var self = this;
 
     self.queue.add({
@@ -202,12 +229,14 @@ SonosBridge.prototype._push_volume = function (volume) {
                         volume: volume,
                     });
                 }
+
+                _done(error);
             });
         }
     });
 };
 
-SonosBridge.prototype._push_mute = function (mute) {
+SonosBridge.prototype._push_mute = function (mute, _done) {
     var self = this;
 
     self.queue.add({
@@ -226,12 +255,14 @@ SonosBridge.prototype._push_mute = function (mute) {
                         mute: mute,
                     });
                 }
+
+                _done(error);
             });
         }
     });
 };
 
-SonosBridge.prototype._push_mode_play = function () {
+SonosBridge.prototype._push_mode_play = function (_done) {
     var self = this;
 
     self.queue.add({
@@ -250,12 +281,14 @@ SonosBridge.prototype._push_mode_play = function () {
                         mode: mode_play,
                     });
                 }
+
+                _done(error);
             });
         }
     });
 };
 
-SonosBridge.prototype._push_mode_pause = function () {
+SonosBridge.prototype._push_mode_pause = function (_done) {
     var self = this;
 
     self.queue.add({
@@ -274,12 +307,14 @@ SonosBridge.prototype._push_mode_pause = function () {
                         mode: mode_pause,
                     });
                 }
+
+                _done(error);
             });
         }
     });
 };
 
-SonosBridge.prototype._push_mode_stop = function () {
+SonosBridge.prototype._push_mode_stop = function (_done) {
     var self = this;
 
     self.queue.add({
@@ -298,12 +333,14 @@ SonosBridge.prototype._push_mode_stop = function () {
                         mode: mode_stop,
                     });
                 }
+
+                _done(error);
             });
         }
     });
 };
 
-SonosBridge.prototype._push_next = function () {
+SonosBridge.prototype._push_next = function (_done) {
     var self = this;
 
     self.queue.add({
@@ -318,12 +355,14 @@ SonosBridge.prototype._push_next = function () {
                         error: error,
                     }, "Sonos error");
                 }
+
+                _done(error);
             });
         }
     });
 };
 
-SonosBridge.prototype._push_previous = function () {
+SonosBridge.prototype._push_previous = function (_done) {
     var self = this;
 
     self.queue.add({
@@ -338,6 +377,8 @@ SonosBridge.prototype._push_previous = function () {
                         error: error,
                     }, "Sonos error");
                 }
+
+                _done(error);
             });
         }
     });
