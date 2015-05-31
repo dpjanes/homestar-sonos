@@ -17,7 +17,7 @@ wrapper.on('bridge', function (bridge) {
     console.log("+ discovered\n ", _.ld.compact(bridge.meta()));
     bridge.push({
         volume: 20,
-    });
+    }, function() {});
 });
 wrapper.on('state', function (bridge, state) {
     console.log("+ state", state);
