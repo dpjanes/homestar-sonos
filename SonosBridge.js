@@ -230,8 +230,10 @@ SonosBridge.prototype._push_volume = function (volume, _done) {
                     });
                 }
 
-                _done(error);
             });
+        },
+        coda: function() {
+            _done();
         }
     });
 };
@@ -255,9 +257,10 @@ SonosBridge.prototype._push_mute = function (mute, _done) {
                         mute: mute,
                     });
                 }
-
-                _done(error);
             });
+        },
+        coda: function() {
+            _done();
         }
     });
 };
@@ -281,9 +284,10 @@ SonosBridge.prototype._push_mode_play = function (_done) {
                         mode: mode_play,
                     });
                 }
-
-                _done(error);
             });
+        },
+        coda: function() {
+            _done();
         }
     });
 };
@@ -307,9 +311,10 @@ SonosBridge.prototype._push_mode_pause = function (_done) {
                         mode: mode_pause,
                     });
                 }
-
-                _done(error);
             });
+        },
+        coda: function() {
+            _done();
         }
     });
 };
@@ -333,9 +338,10 @@ SonosBridge.prototype._push_mode_stop = function (_done) {
                         mode: mode_stop,
                     });
                 }
-
-                _done(error);
             });
+        },
+        coda: function() {
+            _done();
         }
     });
 };
@@ -355,9 +361,10 @@ SonosBridge.prototype._push_next = function (_done) {
                         error: error,
                     }, "Sonos error");
                 }
-
-                _done(error);
             });
+        },
+        coda: function() {
+            _done();
         }
     });
 };
@@ -377,9 +384,10 @@ SonosBridge.prototype._push_previous = function (_done) {
                         error: error,
                     }, "Sonos error");
                 }
-
-                _done(error);
             });
+        },
+        coda: function() {
+            _done();
         }
     });
 };
