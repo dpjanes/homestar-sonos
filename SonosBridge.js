@@ -492,7 +492,7 @@ SonosBridge.prototype.meta = function () {
     }
 
     return {
-        "iot:thing": _.id.thing_urn.unique("Sonos", self.native.uuid),
+        "iot:thing-id": _.id.thing_urn.unique("Sonos", self.native.uuid),
         "schema:name": self.native.name || "Sonos",
         "schema:manufacturer": "http://www.sonos.com/",
     };
