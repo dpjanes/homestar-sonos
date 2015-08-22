@@ -10,4 +10,4 @@ var iotdb = require('iotdb');
 var iot = iotdb.iot();
 
 var things = iot.connect('SonosPlay');
-things.set(":media.mode", "iot-attribute:media.mode.stop");
+things.set(":media.mode", "iot-purpose:media.mode.stop");

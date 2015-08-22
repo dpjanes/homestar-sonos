@@ -17,9 +17,9 @@ exports.Model = iotdb.make_model('SonosPlay')
         iotdb
         .make_string(":media.mode")
         .enumeration(_.ld.expand([
-            "iot-attribute:media.mode.play",
-            "iot-attribute:media.mode.pause",
-            "iot-attribute:media.mode.stop",
+            "iot-purpose:media.mode.play",
+            "iot-purpose:media.mode.pause",
+            "iot-purpose:media.mode.stop",
         ]))
     )
     .o("next", iotdb.make_null("media.next"))

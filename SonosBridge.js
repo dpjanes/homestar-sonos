@@ -33,9 +33,9 @@ var logger = bunyan.createLogger({
     module: 'SonosBridge',
 });
 
-var mode_play = _.ld.expand("iot-attribute:media.mode.play");
-var mode_pause = _.ld.expand("iot-attribute:media.mode.pause");
-var mode_stop = _.ld.expand("iot-attribute:media.mode.stop");
+var mode_play = _.ld.expand("iot-purpose:media.mode.play");
+var mode_pause = _.ld.expand("iot-purpose:media.mode.pause");
+var mode_stop = _.ld.expand("iot-purpose:media.mode.stop");
 
 /**
  *  See {iotdb.bridge.Bridge#Bridge} for documentation.
