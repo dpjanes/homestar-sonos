@@ -24,11 +24,10 @@
 
 var iotdb = require('iotdb');
 var _ = iotdb._;
-var bunyan = iotdb.bunyan;
 
 var sonos = require('sonos');
 
-var logger = bunyan.createLogger({
+var logger = iotdb.logger({
     name: 'homestar-sonos',
     module: 'SonosBridge',
 });
