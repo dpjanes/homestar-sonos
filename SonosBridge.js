@@ -153,7 +153,7 @@ SonosBridge.prototype.push = function (pushd, done) {
         return;
     }
 
-    self._validate_push(pushd);
+    self._validate_push(pushd, done);
 
     logger.info({
         method: "push",
