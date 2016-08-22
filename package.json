@@ -7,7 +7,7 @@
         "iotdb": ">=0.12.0", 
         "sonos": "~0.11.1"
     }, 
-    "description": "HomeStar / IOTDB Bridge for sonos", 
+    "description": "IOTDB Bridge for Sonos", 
     "devDependencies": {
         "grunt": "~0.4.5", 
         "grunt-contrib-jshint": "~0.12.0", 
