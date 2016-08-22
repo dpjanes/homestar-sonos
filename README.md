@@ -1,5 +1,5 @@
 # homestar-sonos
-IOTDB / HomeStar Controller for Sonos
+[IOTDB](https://github.com/dpjanes/node-iotdb) Bridge for Sonos
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" />
 
