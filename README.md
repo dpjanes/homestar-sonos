@@ -3,30 +3,36 @@
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" />
 
-See <a href="samples/">the samples</a> for details how to add to your project.
+# About
 
-# Important Bug List
+See <a href="samples/">the samples</a> for details how to add to your project.
 
 * This has never been tested: I don't own a Sonos
 * We don't know the Sonos UUID. We have to get them
   to figure that out in the sonos library
 
-# Quick Start
+# Installation
+
+* [Read this first](https://github.com/dpjanes/node-iotdb/blob/master/docs/install.md)
+
+Then:
+
+    $ npm install homestar-sonos
+
+# Use
 
 Set the channel to 3
 
-	$ npm install -g homestar ## with 'sudo' if error
-	$ homestar setup
-	$ homestar install homestar-sonos
-	$ node
-	>>> iotdb = require('iotdb')
-	>>> iot = iotdb.iot()
-	>>> things = iot.connect("SonosPlay")
-	>>> things.set(":volume", 20)
-	>>> things.set(":mute", true)
-	>>> things.set(":media.mode", ":media.mode.play")
+	const iotdb = require('iotdb')
+    iotdb.use("homestar-sonos")
 
-# LGSmartTV
+	const things = iotdb.connect("SonosPlay")
+	things.set(":volume", 20)
+	things.set(":mute", true)
+	things.set(":media.mode", ":media.mode.play")
+
+# Models
+## SonosPlay
 
 * <code>volume</code>: integer from 0 to 100 (<code>iot-attribute:volume</code>)
 * <code>mute</code>: true or false (<code>iot-attribute:mute</code>)
