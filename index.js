@@ -26,8 +26,3 @@ exports.Bridge = require('./SonosBridge').Bridge;
 exports.bindings = [
     require('./models/SonosPlay').binding,
 ];
-
-exports.iotdb = require("iotdb");
-exports.wrap = function (name, initd) {
-    return exports.iotdb.make_wrap(name, exports.bindings, initd);
-};
