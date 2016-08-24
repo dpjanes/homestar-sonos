@@ -11,6 +11,8 @@ See <a href="samples/">the samples</a> for details how to add to your project.
 * We don't know the Sonos UUID. We have to get them
   to figure that out in the sonos library
 
+* [Read about Bridges](https://github.com/dpjanes/node-iotdb/blob/master/docs/bridges.md)
+
 # Installation
 
 * [Read this first](https://github.com/dpjanes/node-iotdb/blob/master/docs/install.md)
