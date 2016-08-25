@@ -36,9 +36,9 @@ Set the channel to 3
 # Models
 ## SonosPlay
 
-* <code>volume</code>: integer from 0 to 100 (<code>iot-attribute:volume</code>)
-* <code>mute</code>: true or false (<code>iot-attribute:mute</code>)
-* <code>media.mode</code>: string, see below (<code>iot-attribute:media.mode.\*</code>)
+* <code>volume</code>: integer from 0 to 100 (<code>iot-purpose:volume</code>)
+* <code>mute</code>: true or false (<code>iot-purpose:mute</code>)
+* <code>media.mode</code>: string, see below (<code>iot-purpose:media.mode.\*</code>)
 * <code>next</code>: a work in progress
 * <code>previous</code>: a work in progress
 
