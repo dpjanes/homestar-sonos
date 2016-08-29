@@ -26,3 +26,5 @@ exports.Bridge = require('./SonosBridge').Bridge;
 exports.bindings = [
     require('./models/SonosPlay').binding,
 ];
+
+exports.module_folder = __dirname;
