@@ -1,3 +1,4 @@
 {
-    "module": true
+    "module": true,
+    "bridge": true
 }
